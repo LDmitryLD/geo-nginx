@@ -1,0 +1,105 @@
+version: '3'
+
+services:
+  geo1:
+    restart: on-failure
+    container_name: geo1
+    build: ./geo
+    env_file:
+    - ./geo/.env
+    ports:
+    - "8081:8080"  
+    depends_on:
+    - db
+    - redis
+    networks:
+    - my_network  
+
+  geo2:
+    restart: on-failure
+    container_name: geo2
+    build: ./geo
+    env_file:
+    - ./geo/.env
+    ports:
+    - "8082:8080"  
+    depends_on:
+    - db
+    - redis
+    networks:
+    - my_network 
+
+  geo3:
+    restart: on-failure
+    container_name: geo3
+    build: ./geo
+    env_file:
+    - ./geo/.env
+    ports:
+    - "8083:8080"  
+    depends_on:
+    - db
+    - redis
+    networks:
+    - my_network   
+
+  db:
+    image: postgres
+    container_name: geo_db
+    restart: on-failure
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"  
+    networks:
+      - my_network
+
+  migrator:
+    image: migrate/migrate
+    container_name: migrator
+    volumes:
+    - ./geo/migrations:/migrations
+    entrypoint:
+      [
+        "migrate",
+        "-path",
+        "/migrations",
+        "-database",
+        "postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable",
+      ]
+    command: ["up"]  
+    depends_on:
+      - db
+    restart: on-failure
+    networks:
+      - my_network
+    
+  redis:
+    image: redis
+    container_name: redis    
+    hostname: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - my_network
+
+  nginx:
+    image: nginx:latest
+    restart: on-failure
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro    
+      - ./logs:/var/log/nginx
+    ports:
+      - "8080:8080"  
+    depends_on:
+      - geo1
+      - geo2
+      - geo3 
+    networks:
+      - my_network    
+
+networks:
+  my_network:
+    driver: bridge        

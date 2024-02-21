@@ -1,0 +1,153 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "Documentation of Geoservice API.",
+    "title": "Geoservice.",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/api/address/geocode": {
+      "post": {
+        "tags": [
+          "geocode"
+        ],
+        "summary": "Вычисление адресса по широте и долготе.",
+        "operationId": "GeocodeRequest",
+        "parameters": [
+          {
+            "description": "Lat - широта\nLng - долгота",
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GeocodeRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GeocodeResponse"
+          }
+        }
+      }
+    },
+    "/api/address/search": {
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Вычисление местанахождения по адрессу.",
+        "operationId": "SearchRequest",
+        "parameters": [
+          {
+            "description": "Qury - запрос, представляющий собой адрес",
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SearchRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SearchResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Address": {
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "string",
+          "x-go-name": "Lat"
+        },
+        "lon": {
+          "type": "string",
+          "x-go-name": "Lon"
+        }
+      },
+      "x-go-package": "projects/LDmitryLD/geo-nginx/geo/internal/models"
+    },
+    "GeocodeRequest": {
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "string",
+          "x-go-name": "Lat"
+        },
+        "lng": {
+          "type": "string",
+          "x-go-name": "Lng"
+        }
+      },
+      "x-go-package": "projects/LDmitryLD/geo-nginx/geo/internal/modules/geo/controller"
+    },
+    "GeocodeResponse": {
+      "type": "object",
+      "properties": {
+        "addresses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Address"
+          },
+          "x-go-name": "Addresses"
+        }
+      },
+      "x-go-package": "projects/LDmitryLD/geo-nginx/geo/internal/modules/geo/controller"
+    },
+    "SearchRequest": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "x-go-name": "Query"
+        }
+      },
+      "x-go-package": "projects/LDmitryLD/geo-nginx/geo/internal/modules/geo/controller"
+    },
+    "SearchResponse": {
+      "type": "object",
+      "properties": {
+        "addresses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Address"
+          },
+          "x-go-name": "Addresses"
+        }
+      },
+      "x-go-package": "projects/LDmitryLD/geo-nginx/geo/internal/modules/geo/controller"
+    }
+  },
+  "responses": {
+    "GeocodeResponse": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/GeocodeResponse"
+      }
+    },
+    "SearchResponse": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/SearchResponse"
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

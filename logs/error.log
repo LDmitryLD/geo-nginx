@@ -1,0 +1,11 @@
+2024/02/21 12:50:34 [emerg] 1#1: host not found in upstream "geo1:8080" in /etc/nginx/nginx.conf:9
+2024/02/21 12:53:47 [emerg] 1#1: host not found in upstream "geo1:8080" in /etc/nginx/nginx.conf:9
+2024/02/21 13:05:20 [emerg] 1#1: host not found in upstream "geo1:8080" in /etc/nginx/nginx.conf:9
+2024/02/21 13:17:01 [emerg] 1#1: host not found in upstream "geo3:8080" in /etc/nginx/nginx.conf:11
+2024/02/21 13:20:51 [emerg] 1#1: host not found in upstream "geo1:8080" in /etc/nginx/nginx.conf:9
+2024/02/21 13:21:02 [emerg] 1#1: host not found in upstream "geo2:8080" in /etc/nginx/nginx.conf:10
+2024/02/21 13:21:11 [emerg] 1#1: host not found in upstream "geo2:8080" in /etc/nginx/nginx.conf:10
+2024/02/21 13:21:28 [error] 22#22: *1 open() "/etc/nginx/html/swagger" failed (2: No such file or directory), client: 172.25.0.1, server: , request: "GET /swagger HTTP/1.1", host: "localhost:8080"
+2024/02/21 13:21:31 [error] 22#22: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.25.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8080"
+2024/02/21 13:33:51 [error] 22#22: *14 connect() failed (113: No route to host) while connecting to upstream, client: 172.25.0.1, server: , request: "POST /api/address/geocode HTTP/1.1", upstream: "http://172.25.0.6:8080/api/address/geocode", host: "localhost:8080"
+2024/02/21 13:34:18 [error] 22#22: *14 connect() failed (113: No route to host) while connecting to upstream, client: 172.25.0.1, server: , request: "POST /api/address/geocode HTTP/1.1", upstream: "http://172.25.0.5:8080/api/address/geocode", host: "localhost:8080"
